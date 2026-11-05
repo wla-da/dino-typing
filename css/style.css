@@ -1,0 +1,792 @@
+/* ===== Базовые настройки ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  --green: #4CAF50;
+  --green-dark: #388E3C;
+  --orange: #FF9800;
+  --orange-dark: #F57C00;
+  --blue: #2196F3;
+  --bg: #F0F4F8;
+  --card: #FFFFFF;
+  --text: #263238;
+  --text-light: #78909C;
+  --success: #66BB6A;
+  --error: #EF5350;
+  --radius: 16px;
+  --shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+/* ===== Кнопки ===== */
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: var(--shadow);
+  color: white;
+  text-align: center;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary { background: var(--green); }
+.btn-primary:hover { background: var(--green-dark); }
+
+.btn-secondary { background: var(--orange); }
+.btn-secondary:hover { background: var(--orange-dark); }
+
+.btn-back {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  background: var(--card);
+  color: var(--text);
+  padding: 10px 16px;
+  font-size: 16px;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+/* ===== Главное меню ===== */
+.screen-menu {
+  text-align: center;
+  max-width: 500px;
+}
+
+.screen-menu .mascot {
+  width: min(280px, 60vw);
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.screen-menu h1 {
+  font-size: clamp(28px, 6vw, 42px);
+  color: var(--green-dark);
+  margin-bottom: 8px;
+}
+
+.screen-menu .subtitle {
+  font-size: clamp(14px, 3vw, 18px);
+  color: var(--text-light);
+  margin-bottom: 28px;
+}
+
+.screen-menu .btn {
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 12px;
+  font-size: clamp(16px, 3.5vw, 20px);
+}
+
+/* ===== Выбор урока ===== */
+.screen-lessons {
+  width: 100%;
+  max-width: 700px;
+  max-height: 100dvh;
+  overflow-y: auto;
+  padding: 60px 16px 16px;
+  box-sizing: border-box;
+}
+
+.screen-lessons h2 {
+  text-align: center;
+  font-size: clamp(22px, 5vw, 32px);
+  margin-bottom: 20px;
+  color: var(--green-dark);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  padding: 8px;
+  z-index: 10;
+  border-radius: var(--radius);
+}
+
+#lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 20px;
+}
+
+.lesson-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.lesson-card:active { transform: scale(0.98); }
+
+.lesson-card .dino-preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.lesson-card .info { flex: 1; }
+.lesson-card .info h3 {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+.lesson-card .info p {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.lesson-card .progress {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green);
+  text-align: right;
+}
+
+/* ===== Экран уровня ===== */
+.screen-level {
+  width: 100%;
+  max-width: 700px;
+  position: relative;
+}
+
+.level-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.level-header .title {
+  font-size: clamp(16px, 3.5vw, 20px);
+  font-weight: 700;
+}
+
+.level-header .progress-text {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+
+/* Пазл на экране игры */
+/* Пазл на экране игры */
+.puzzle-container {
+  flex-shrink: 0;
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 6px;
+  box-shadow: var(--shadow);
+  height: auto;             /* АВТО вместо 16vh */
+  max-height: none;         /* УБРАЛ ограничение */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;        /* ИЗМЕНИЛ с hidden */
+  position: relative;
+}
+
+.puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 3px;                 /* УМЕНЬШИЛ с 4px */
+  width: 180px;             /* ФИКСИРОВАННАЯ ширина (вместо max-width) */
+  height: 180px;            /* ФИКСИРОВАННАЯ высота */
+  margin: 0 auto;
+}
+
+.puzzle-piece {
+  background-size: 400% 400%;
+  background-repeat: no-repeat;
+  border-radius: 4px;       /* УМЕНЬШИЛ с 6px */
+  background-color: #E0E0E0;
+  transition: opacity 0.3s;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.puzzle-piece.locked {
+  opacity: 0.25;
+  filter: grayscale(1);
+}
+
+.puzzle-piece.unlocked {
+  opacity: 1;
+}
+
+/* Зона ввода (заглушка для части 2) */
+.input-zone {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.target-letters {
+  font-size: clamp(28px, 7vw, 48px);
+  font-weight: 700;
+  letter-spacing: 8px;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.target-letters .done { color: var(--success); }
+.target-letters .current { color: var(--orange); text-decoration: underline; }
+.target-letters .pending { color: #B0BEC5; }
+
+.hint {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+/* Модальное окно результата */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.modal {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.modal h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+  color: var(--green-dark);
+}
+
+.modal .stars {
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+
+.modal .btn { margin-top: 8px; }
+
+/* ===== Адаптивность ===== */
+@media (max-width: 480px) {
+  .lesson-card { padding: 14px; }
+  .lesson-card .dino-preview { width: 60px; height: 60px; }
+  .puzzle-grid { gap: 3px; }
+}
+
+@media (min-width: 1024px) {
+  #app { padding: 32px; }
+}
+
+/* ===== ЭКРАН ИГРЫ ===== */
+.screen-game {
+  width: 100%;
+  max-width: 900px;
+  height: 100dvh;
+  max-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  overflow: hidden;         /* НЕТ СКРОЛЛА */
+  box-sizing: border-box;
+}
+
+.game-header {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px;
+}
+
+.game-title {
+  font-size: clamp(14px, 3vw, 18px);
+  font-weight: 700;
+  text-align: center;
+  flex: 1;
+}
+
+.btn-icon {
+  background: var(--card);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:active { transform: scale(0.9); }
+
+/* Статистика */
+.game-stats {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.lives {
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.errors {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+/* Круговой таймер */
+.timer-ring {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--timer-color, var(--green)) var(--progress, 100%),
+    #E0E0E0 0
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.timer-ring::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  background: var(--card);
+  border-radius: 50%;
+}
+
+.timer-text {
+  position: relative;
+  font-size: 18px;
+  font-weight: 700;
+  z-index: 1;
+}
+
+/* Зона целевой последовательности */
+.target-zone {
+  flex-shrink: 0;
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  box-shadow: var(--shadow);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.target-letters {
+  font-size: clamp(24px, 5vw, 40px);
+  letter-spacing: 4px;
+}
+
+.target-letters .done { color: var(--success); }
+.target-letters .current {
+  color: var(--orange);
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  animation: pulse 1s infinite;
+}
+.target-letters .pending { color: #B0BEC5; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.target-letters.shake {
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+/* ===== ВИРТУАЛЬНАЯ КЛАВИАТУРА ===== */
+.keyboard {
+  flex-shrink: 0;           /* НЕ растягивается */
+  flex-grow: 0;
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 6px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  /* НЕТ margin-top: auto */
+  /* НЕТ justify-content */
+}
+
+.kb-row {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  height: auto;             /* авто-высота */
+}
+
+.kb-key {
+  flex: 1;
+  max-width: 48px;
+  height: clamp(32px, 5vh, 44px); /* адаптивная высота */
+  min-height: 32px;
+  background: #F5F5F5;
+  border: 2px solid #E0E0E0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(10px, 1.6vw, 13px);
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.kb-key.kb-special {
+  background: #EEEEEE;
+  font-size: clamp(8px, 1.3vw, 10px);
+  max-width: 56px;
+}
+
+.kb-key.kb-space {
+  max-width: 200px;
+  flex: 2.5;
+}
+
+.kb-key.kb-active {
+  background: var(--orange);
+  border-color: var(--orange-dark);
+  color: white;
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+}
+
+/* Подсказка раскладки */
+.layout-hint {
+  flex-shrink: 0;
+  background: #FFF3E0;
+  border: 2px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 6px 12px;
+  text-align: center;
+  font-size: 13px;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Причина провала */
+.fail-reason {
+  color: var(--error);
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+/* ===== АДАПТИВ КЛАВИАТУРЫ ===== */
+@media (max-width: 600px) {
+  .kb-key {
+    min-width: 24px;
+    height: 32px;
+    font-size: 11px;
+    border-radius: 5px;
+  }
+  .kb-key.kb-special { min-width: 30px; font-size: 9px; }
+  .kb-key.kb-space { min-width: 100px; }
+  .kb-row { gap: 2px; }
+  .keyboard { padding: 8px; gap: 3px; }
+}
+
+@media (min-width: 1200px) {
+  .screen-game { max-width: 1000px; }
+  .kb-key { min-width: 52px; height: 58px; font-size: 18px; }
+}
+
+/* ===== ЭКРАН СБОРКИ ПАЗЛА ===== */
+.screen-puzzle-game {
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+  padding: 20px;
+}
+
+.screen-puzzle-game h2 {
+  font-size: clamp(24px, 5vw, 32px);
+  color: var(--green-dark);
+  margin-bottom: 8px;
+}
+
+.screen-puzzle-game .subtitle {
+  font-size: 16px;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+.puzzle-progress {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.puzzle-board {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 12px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+.puzzle-slot {
+  transition: all 0.2s;
+}
+
+.puzzle-slot:hover {
+  border-color: var(--orange);
+}
+
+.puzzle-pieces {
+  min-height: 80px;
+}
+
+.puzzle-piece-clickable {
+  transition: all 0.2s;
+}
+
+.puzzle-piece-clickable:hover {
+  transform: scale(1.05);
+}
+
+.puzzle-piece-clickable.placed {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.complete-badge {
+  display: inline-block;
+  background: var(--success);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+
+.screen-classes {
+  width: 100%;
+  max-width: 700px;
+}
+
+.class-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.class-card:active { transform: scale(0.98); }
+
+.class-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.class-card .info { flex: 1; }
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #E0E0E0;
+  border-radius: 4px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  transition: width 0.3s;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+  .kb-key {
+    min-width: 22px;
+    max-width: 40px;
+    height: clamp(28px, 4.5vh, 38px);
+    font-size: 10px;
+    border-radius: 5px;
+  }
+  .kb-key.kb-special { 
+    min-width: 28px; 
+    max-width: 48px;
+    font-size: 9px; 
+  }
+  .kb-key.kb-space { 
+    min-width: 90px; 
+    max-width: 160px;
+  }
+  .kb-row { gap: 2px; }
+  .keyboard { padding: 4px; gap: 2px; }
+  
+  .puzzle-container {
+    height: 15vh;
+    max-height: 110px;
+    padding: 6px;
+  }
+}
+
+/* ===== ЛАНДШАФТНАЯ ОРИЕНТАЦИЯ ===== */
+@media (orientation: landscape) and (max-height: 600px) {
+  .screen-game {
+    gap: 4px;
+    padding: 4px;
+  }
+  
+  .puzzle-container {
+    height: 12vh;
+    max-height: 90px;
+  }
+  
+  .puzzle-grid {
+    max-width: 200px;
+  }
+  
+  .target-zone {
+    min-height: 44px;
+    padding: 6px 12px;
+  }
+  
+  .target-letters {
+    font-size: clamp(20px, 4vw, 32px);
+  }
+  
+  .game-stats {
+    padding: 4px 10px;
+  }
+  
+  .timer-ring {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .timer-text {
+    font-size: 14px;
+  }
+  
+  .kb-key {
+    height: clamp(26px, 4vh, 36px);
+    font-size: 9px;
+  }
+  
+  .kb-key.kb-special {
+    font-size: 8px;
+  }
+}
+
+/* ===== БОЛЬШИЕ ЭКРАНЫ ===== */
+@media (min-width: 1200px) {
+  .screen-game { max-width: 1000px; }
+  .kb-key { 
+    max-width: 56px; 
+    height: clamp(40px, 5vh, 52px); 
+    font-size: 16px; 
+  }
+  .kb-key.kb-special { max-width: 68px; }
+  .kb-key.kb-space { max-width: 240px; }
+}
