@@ -507,6 +507,8 @@ html, body {
   color: var(--text);
   transition: all 0.15s;
   user-select: none;
+  touch-action: manipulation; /* Убирает задержку в 300мс на мобильных */
+  -webkit-tap-highlight-color: rgba(255, 152, 0, 0.3); /* Подсветка при нажатии */
 }
 
 .kb-key.kb-special {
@@ -607,6 +609,8 @@ html, body {
 
 .puzzle-slot {
   transition: all 0.2s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(255, 152, 0, 0.3);
 }
 
 .puzzle-slot:hover {
@@ -619,6 +623,8 @@ html, body {
 
 .puzzle-piece-clickable {
   transition: all 0.2s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(255, 152, 0, 0.3);
 }
 
 .puzzle-piece-clickable:hover {
@@ -771,7 +777,8 @@ html, body {
   
   .kb-key {
     height: clamp(26px, 4vh, 36px);
-    font-size: 9px;
+    font-size: clamp(9px, 3vw, 12px);
+    max-width: 42px;
   }
   
   .kb-key.kb-special {

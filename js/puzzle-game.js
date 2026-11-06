@@ -64,8 +64,27 @@ class PuzzleGame {
       slot.style.justifyContent = 'center';
       slot.style.fontSize = '24px';
       slot.style.cursor = 'pointer';
+      // Убираем выделение текста на мобильных
+      slot.style.userSelect = 'none';
+      slot.style.webkitUserSelect = 'none';
 
-      slot.addEventListener('click', () => this.handleSlotClick(i));
+      const handleSlotClick = (e) => {
+        e.preventDefault();
+        this.handleSlotClick(i);
+      };
+
+      slot.addEventListener('click', handleSlotClick);
+      slot.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        handleSlotClick(e);
+        slot.style.background = '#BDBDBD';
+        setTimeout(() => {
+          if (!slot.style.backgroundImage) {
+            slot.style.background = '#E0E0E0';
+          }
+        }, 150);
+      });
+
       board.appendChild(slot);
     }
   }
@@ -101,8 +120,31 @@ class PuzzleGame {
       piece.style.cursor = 'pointer';
       piece.style.border = '2px solid var(--green)';
       piece.style.transition = 'transform 0.2s';
+      // Убираем выделение на мобильных
+      piece.style.userSelect = 'none';
+      piece.style.webkitUserSelect = 'none';
+      // Убираем стандартное поведение тача
+      piece.style.touchAction = 'manipulation';
 
-      piece.addEventListener('click', () => this.handlePieceClick(index, piece));
+      const handlePieceClick = (e) => {
+        e.preventDefault();
+        this.handlePieceClick(index, piece);
+      };
+
+      piece.addEventListener('click', handlePieceClick);
+      piece.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        handlePieceClick(e);
+        if (!piece.classList.contains('placed')) {
+          piece.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            if (!piece.classList.contains('selected')) {
+              piece.style.transform = 'scale(1)';
+            }
+          }, 150);
+        }
+      });
+
       piecesContainer.appendChild(piece);
     });
   }

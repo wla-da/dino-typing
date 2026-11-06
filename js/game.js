@@ -66,11 +66,78 @@ class TypingGame {
     this.render();
     this.startTimer();
     document.addEventListener('keydown', this.keyHandler);
+    
+    // Фокус на скрытое поле для мобильных устройств
+    this.enableMobileInput();
+  }
+
+  enableMobileInput() {
+    const mobileInput = document.getElementById('mobile-keyboard-input');
+    if (!mobileInput) return;
+    
+    // На тач-устройствах фокусируемся на скрытое поле
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      // Разрешаем фокус
+      mobileInput.style.pointerEvents = 'auto';
+      mobileInput.style.opacity = '0.01';
+      mobileInput.style.left = '0';
+      mobileInput.style.top = '0';
+      mobileInput.style.width = '1px';
+      mobileInput.style.height = '1px';
+      
+      // Фокус при старте уровня
+      setTimeout(() => mobileInput.focus(), 100);
+      
+      // Перехватываем ввод с экранной клавиатуры
+      mobileInput.addEventListener('input', (e) => {
+        const char = e.data;
+        if (char) {
+          // Создаём фейковый keydown event
+          const fakeEvent = {
+            key: char,
+            code: this.getCharCode(char),
+            preventDefault: () => {}
+          };
+          this.handleKey(fakeEvent);
+          // Очищаем поле
+          mobileInput.value = '';
+        }
+      });
+      
+      // Возвращаем фокус после каждого нажатия
+      document.addEventListener('click', () => {
+        setTimeout(() => mobileInput.focus(), 50);
+      });
+    }
+  }
+
+  getCharCode(char) {
+    // Маппинг символов на коды клавиш
+    const codeMap = {
+      'а': 'KeyA', 'б': 'KeyB', 'в': 'KeyV', 'г': 'KeyG', 'д': 'KeyD',
+      'е': 'KeyE', 'ё': 'Backquote', 'ж': 'KeyJ', 'з': 'KeyZ', 'и': 'KeyI',
+      'й': 'KeyQ', 'к': 'KeyK', 'л': 'KeyL', 'м': 'KeyM', 'н': 'KeyN',
+      'о': 'KeyO', 'п': 'KeyP', 'р': 'KeyR', 'с': 'KeyS', 'т': 'KeyT',
+      'у': 'KeyU', 'ф': 'KeyF', 'х': 'KeyX', 'ц': 'KeyW', 'ч': 'KeyX',
+      'ш': 'KeyI', 'щ': 'KeyO', 'ъ': 'BracketRight', 'ы': 'KeyS',
+      'ь': 'KeyB', 'э': 'Quote', 'ю': 'Period', 'я': 'KeyZ',
+      ' ': 'Space'
+    };
+    return codeMap[char.toLowerCase()] || '';
   }
 
   unmount() {
     document.removeEventListener('keydown', this.keyHandler);
     this.stopTimer();
+    
+    // Убираем фокус с мобильного поля
+    const mobileInput = document.getElementById('mobile-keyboard-input');
+    if (mobileInput) {
+      mobileInput.blur();
+      mobileInput.style.pointerEvents = 'none';
+      mobileInput.style.opacity = '0';
+      mobileInput.style.left = '-9999px';
+    }
   }
 
   render() {
@@ -162,9 +229,32 @@ class TypingGame {
         if (key === 'Space') {
           keyEl.classList.add('kb-space');
           keyEl.textContent = 'пробел';
-        } else if (['⌫', '↵', '⇥', '⇪', '⇧', '\\', '/'].includes(key)) {
+        } else if (['⌫', '↵', '', '⇪', '⇧', '\\', '/'].includes(key)) {
           keyEl.classList.add('kb-special');
         }
+
+        // Добавляем поддержку touch событий
+        const handleKeyClick = (e) => {
+          e.preventDefault();
+          const targetChar = this.sequence[this.currentIndex];
+          if (targetChar && targetChar.toLowerCase() === key.toLowerCase()) {
+            // Имитируем нажатие правильной клавиши
+            const fakeEvent = {
+              key: key,
+              code: RU_TO_CODE[key.toLowerCase()] || '',
+              preventDefault: () => {}
+            };
+            this.handleKey(fakeEvent);
+          }
+        };
+
+        keyEl.addEventListener('click', handleKeyClick);
+        keyEl.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          handleKeyClick(e);
+          keyEl.classList.add('kb-active');
+          setTimeout(() => keyEl.classList.remove('kb-active'), 150);
+        });
 
         rowEl.appendChild(keyEl);
       });
