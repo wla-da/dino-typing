@@ -181,8 +181,8 @@ class PuzzleGame {
       slot.style.backgroundPosition = `${bgX}% ${bgY}%`;
       slot.style.backgroundSize = `${PUZZLE_COLS * 100}% ${PUZZLE_ROWS * 100}%`;
       slot.style.border = '2px solid var(--green)';
-      // УБРАЛИ slot.textContent = '✓'; - текст перекрывал изображение на мобильных!
-      slot.textContent = '';  // ← Явно очищаем текст
+      // Убираем галочку - она не нужна
+      slot.textContent = '';
 
       this.selectedPiece.element.classList.add('placed');
       this.selectedPiece.element.style.opacity = '0.3';
