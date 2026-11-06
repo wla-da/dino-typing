@@ -479,5 +479,348 @@ const LESSONS = [
       { id: 13, sequence: 'ФЫВА ОЛДЖ ФЫВА ОЛДЖ' }, { id: 14, sequence: 'ОЛДЖ ФЫВА ОЛДЖ ФЫВА' },
       { id: 15, sequence: 'ФЫВА ОЛДЖ АВЫО ЛДЖФ ДЛОВА' }, { id: 16, sequence: 'ФЫВА ОЛДЖ ФЫВА ОЛДЖ ФЫВА ОЛДЖ' }
     ]
+  },
+
+
+    // ==================== КЛАСС 4: Верхний ряд, левая рука (Й, Ц, У, К, Е) ====================
+  {
+    id: 'c4-l1', class: 4, title: 'У и К', description: 'Средний и указательный левой руки',
+    image: 'assets/images/dino-class4.png', letters: ['У', 'К'],
+    levels: [
+      { id: 1, sequence: 'УУУ' }, { id: 2, sequence: 'ККК' },
+      { id: 3, sequence: 'УК УК' }, { id: 4, sequence: 'КУ КУ' },
+      { id: 5, sequence: 'УКУ' }, { id: 6, sequence: 'КУК' },
+      { id: 7, sequence: 'У У К К' }, { id: 8, sequence: 'К К У У' },
+      { id: 9, sequence: 'УКУК' }, { id: 10, sequence: 'КУКУ' },
+      { id: 11, sequence: 'У К У К У' }, { id: 12, sequence: 'К У К У К' },
+      { id: 13, sequence: 'УКУ УКУ' }, { id: 14, sequence: 'КУК КУК' },
+      { id: 15, sequence: 'У КУК У КУК' }, { id: 16, sequence: 'К УКУ К УКУ' }
+    ]
+  },
+  {
+    id: 'c4-l2', class: 4, title: 'Буква Е', description: 'Указательный палец левой руки',
+    image: 'assets/images/dino-class4.png', letters: ['Е'],
+    levels: [
+      { id: 1, sequence: 'ЕЕЕ' }, { id: 2, sequence: 'ЕЕЕЕ' },
+      { id: 3, sequence: 'Е Е Е' }, { id: 4, sequence: 'ЕЕЕ ЕЕЕ' },
+      { id: 5, sequence: 'ЕУ ЕК' }, { id: 6, sequence: 'УЕ КУ' },
+      { id: 7, sequence: 'Е У Е К' }, { id: 8, sequence: 'К Е У Е' },
+      { id: 9, sequence: 'ЕУК КУЕ' }, { id: 10, sequence: 'КЕУ УЕК' },
+      { id: 11, sequence: 'Е У К Е У К' }, { id: 12, sequence: 'К Е У К Е У' },
+      { id: 13, sequence: 'ЕУК ЕУК' }, { id: 14, sequence: 'КУЕ КУЕ' },
+      { id: 15, sequence: 'Е УКУ Е УКУ' }, { id: 16, sequence: 'К УЕК К УЕК' }
+    ]
+  },
+  {
+    id: 'c4-l3', class: 4, title: 'Буква Ц', description: 'Безымянный палец левой руки',
+    image: 'assets/images/dino-class4.png', letters: ['Ц'],
+    levels: [
+      { id: 1, sequence: 'ЦЦЦ' }, { id: 2, sequence: 'ЦЦЦЦ' },
+      { id: 3, sequence: 'Ц Ц Ц' }, { id: 4, sequence: 'ЦЦЦ ЦЦЦ' },
+      { id: 5, sequence: 'ЦУ ЦК' }, { id: 6, sequence: 'УЦ КУ' },
+      { id: 7, sequence: 'Ц У Ц К' }, { id: 8, sequence: 'К Ц У Ц' },
+      { id: 9, sequence: 'ЦУК КУЦ' }, { id: 10, sequence: 'КЦУ УЦК' },
+      { id: 11, sequence: 'Ц У К Ц У К' }, { id: 12, sequence: 'К Ц У К Ц У' },
+      { id: 13, sequence: 'ЦУК ЦУК' }, { id: 14, sequence: 'КУЦ КУЦ' },
+      { id: 15, sequence: 'Ц УКУ Ц УКУ' }, { id: 16, sequence: 'К УЦК К УЦК' }
+    ]
+  },
+  {
+    id: 'c4-l4', class: 4, title: 'Буква Й', description: 'Мизинец левой руки',
+    image: 'assets/images/dino-class4.png', letters: ['Й'],
+    levels: [
+      { id: 1, sequence: 'ЙЙЙ' }, { id: 2, sequence: 'ЙЙЙЙ' },
+      { id: 3, sequence: 'Й Й Й' }, { id: 4, sequence: 'ЙЙЙ ЙЙЙ' },
+      { id: 5, sequence: 'ЙЦ ЙУ' }, { id: 6, sequence: 'ЦЙ УЙ' },
+      { id: 7, sequence: 'Й Ц У Й' }, { id: 8, sequence: 'У Й Ц Й' },
+      { id: 9, sequence: 'ЙЦУ УЦЙ' }, { id: 10, sequence: 'УЙЦ ЦЙУ' },
+      { id: 11, sequence: 'Й Ц У Й Ц У' }, { id: 12, sequence: 'У Й Ц У Й Ц' },
+      { id: 13, sequence: 'ЙЦУ ЙЦУ' }, { id: 14, sequence: 'УЦЙ УЦЙ' },
+      { id: 15, sequence: 'Й ЦУК Й ЦУК' }, { id: 16, sequence: 'К УЦЙ К УЦЙ' }
+    ]
+  },
+  {
+    id: 'c4-l5', class: 4, title: 'У, К, Е вместе', description: 'Указательный и средний левой',
+    image: 'assets/images/dino-class4.png', letters: ['У', 'К', 'Е'],
+    levels: [
+      { id: 1, sequence: 'УКЕ' }, { id: 2, sequence: 'ЕКУ' },
+      { id: 3, sequence: 'УКЕ УКЕ' }, { id: 4, sequence: 'ЕКУ ЕКУ' },
+      { id: 5, sequence: 'У Е К У' }, { id: 6, sequence: 'К У Е К' },
+      { id: 7, sequence: 'УК ЕК УК' }, { id: 8, sequence: 'КУ УЕ КУ' },
+      { id: 9, sequence: 'УКЕУ КУЕК' }, { id: 10, sequence: 'ЕКУК УЕКУ' },
+      { id: 11, sequence: 'У К Е У К Е' }, { id: 12, sequence: 'Е У К Е У К' },
+      { id: 13, sequence: 'УКЕ УКЕ УКЕ' }, { id: 14, sequence: 'ЕКУ ЕКУ ЕКУ' },
+      { id: 15, sequence: 'УКЕУ ЕКУК УКЕУ' }, { id: 16, sequence: 'ЕКУК УКЕУ ЕКУК' }
+    ]
+  },
+  {
+    id: 'c4-l6', class: 4, title: 'Й, Ц, У, К, Е', description: 'Весь верхний ряд левой руки',
+    image: 'assets/images/dino-class4.png', letters: ['Й', 'Ц', 'У', 'К', 'Е'],
+    levels: [
+      { id: 1, sequence: 'ЙЦУКЕ' }, { id: 2, sequence: 'ЕКУЦЙ' },
+      { id: 3, sequence: 'ЙЦУ КЕ' }, { id: 4, sequence: 'ЕК УЦЙ' },
+      { id: 5, sequence: 'Й Ц У К Е' }, { id: 6, sequence: 'Е К У Ц Й' },
+      { id: 7, sequence: 'ЙЦУ ЙЦУ КЕ КЕ' }, { id: 8, sequence: 'ЕКУ ЕКУ ЦЙ ЦЙ' },
+      { id: 9, sequence: 'ЙЦУКЕ ЕКУЦЙ' }, { id: 10, sequence: 'ЕКУЦЙ ЙЦУКЕ' },
+      { id: 11, sequence: 'Й Ц У К Е Й Ц' }, { id: 12, sequence: 'Е К У Ц Й Е К' },
+      { id: 13, sequence: 'ЙЦУКЕ ЙЦУКЕ' }, { id: 14, sequence: 'ЕКУЦЙ ЕКУЦЙ' },
+      { id: 15, sequence: 'ЙЦУ КЕ УЦ ЙЕ' }, { id: 16, sequence: 'ЕК УЦ ЙЕ КУ ЦЙ' }
+    ]
+  },
+  {
+    id: 'c4-l7', class: 4, title: 'Верхний + Домашний (А, В)', description: 'Связка рядов',
+    image: 'assets/images/dino-class4.png', letters: ['У', 'К', 'Е', 'А', 'В'],
+    levels: [
+      { id: 1, sequence: 'УА КА' }, { id: 2, sequence: 'АУ АК' },
+      { id: 3, sequence: 'ЕВ ВЕ' }, { id: 4, sequence: 'ВЕ ЕВ' },
+      { id: 5, sequence: 'УАВ КАВ' }, { id: 6, sequence: 'ВАУ ВАК' },
+      { id: 7, sequence: 'У А К А Е А' }, { id: 8, sequence: 'А У А К А Е' },
+      { id: 9, sequence: 'УКА ВЕА УКА' }, { id: 10, sequence: 'АКУ АВЕ АКУ' },
+      { id: 11, sequence: 'УАВ КАВ ЕАВ' }, { id: 12, sequence: 'ВАУ ВАК ВАЕ' },
+      { id: 13, sequence: 'УКАВ КАВУ' }, { id: 14, sequence: 'ВАКУ ВАУК' },
+      { id: 15, sequence: 'У А В К Е А У' }, { id: 16, sequence: 'А У К А В Е А' }
+    ]
+  },
+  {
+    id: 'c4-l8', class: 4, title: 'Закрепление 4 класса', description: 'Свободная печать верхнего левого',
+    image: 'assets/images/dino-class4.png', letters: ['Й', 'Ц', 'У', 'К', 'Е', 'А', 'В'],
+    levels: [
+      { id: 1, sequence: 'УКА ВЕК' }, { id: 2, sequence: 'КАВ ЕЦУ' },
+      { id: 3, sequence: 'ЙУК ЦЕА' }, { id: 4, sequence: 'АЕК УЦЙ' },
+      { id: 5, sequence: 'УКАВ ЕЦУЙ' }, { id: 6, sequence: 'ЙЦУК ЕАВУ' },
+      { id: 7, sequence: 'У К А В Е К У' }, { id: 8, sequence: 'А В Е К У Ц А' },
+      { id: 9, sequence: 'ЙЦУКЕ УКАВЙ' }, { id: 10, sequence: 'ЕКУЦЙ ВАУКЕ' },
+      { id: 11, sequence: 'УКА ВЕК УЦА' }, { id: 12, sequence: 'КАВ ЕЦУ ЙВА' },
+      { id: 13, sequence: 'ЙУК ЦЕА УКА' }, { id: 14, sequence: 'АЕК УЦЙ ВАУ' },
+      { id: 15, sequence: 'УКАВ ЕЦУЙ ЙЦУК' }, { id: 16, sequence: 'ЕАВУ ВАУК ЕКУЦ' }
+    ]
+  },
+
+  // ==================== КЛАСС 5: Верхний ряд, правая рука (Н, Г, Ш, Щ, З, Х) ====================
+  {
+    id: 'c5-l1', class: 5, title: 'Н и Г', description: 'Указательные пальцы правой руки',
+    image: 'assets/images/dino-class5.png', letters: ['Н', 'Г'],
+    levels: [
+      { id: 1, sequence: 'ННН' }, { id: 2, sequence: 'ГГГ' },
+      { id: 3, sequence: 'НГ НГ' }, { id: 4, sequence: 'ГН ГН' },
+      { id: 5, sequence: 'НГН' }, { id: 6, sequence: 'ГНГ' },
+      { id: 7, sequence: 'Н Н Г Г' }, { id: 8, sequence: 'Г Г Н Н' },
+      { id: 9, sequence: 'НГНГ' }, { id: 10, sequence: 'ГНГН' },
+      { id: 11, sequence: 'Н Г Н Г Н' }, { id: 12, sequence: 'Г Н Г Н Г' },
+      { id: 13, sequence: 'НГН НГН' }, { id: 14, sequence: 'ГНГ ГНГ' },
+      { id: 15, sequence: 'Н ГНГ Н ГНГ' }, { id: 16, sequence: 'Г НГН Г НГН' }
+    ]
+  },
+  {
+    id: 'c5-l2', class: 5, title: 'Буква Ш', description: 'Средний палец правой руки',
+    image: 'assets/images/dino-class5.png', letters: ['Ш'],
+    levels: [
+      { id: 1, sequence: 'ШШШ' }, { id: 2, sequence: 'ШШШШ' },
+      { id: 3, sequence: 'Ш Ш Ш' }, { id: 4, sequence: 'ШШШ ШШШ' },
+      { id: 5, sequence: 'ШН ШГ' }, { id: 6, sequence: 'НШ ГШ' },
+      { id: 7, sequence: 'Ш Н Ш Г' }, { id: 8, sequence: 'Г Ш Н Ш' },
+      { id: 9, sequence: 'ШНГ ГНШ' }, { id: 10, sequence: 'ГШН НШГ' },
+      { id: 11, sequence: 'Ш Н Г Ш Н Г' }, { id: 12, sequence: 'Г Ш Н Г Ш Н' },
+      { id: 13, sequence: 'ШНГ ШНГ' }, { id: 14, sequence: 'ГНШ ГНШ' },
+      { id: 15, sequence: 'Ш НГН Ш НГН' }, { id: 16, sequence: 'Г ШНГ Г ШНГ' }
+    ]
+  },
+  {
+    id: 'c5-l3', class: 5, title: 'Щ и З', description: 'Безымянные пальцы правой руки',
+    image: 'assets/images/dino-class5.png', letters: ['Щ', 'З'],
+    levels: [
+      { id: 1, sequence: 'ЩЩЩ' }, { id: 2, sequence: 'ЗЗЗ' },
+      { id: 3, sequence: 'ЩЗ ЩЗ' }, { id: 4, sequence: 'ЗЩ ЗЩ' },
+      { id: 5, sequence: 'ЩЗЩ' }, { id: 6, sequence: 'ЗЩЗ' },
+      { id: 7, sequence: 'Щ Щ З З' }, { id: 8, sequence: 'З З Щ Щ' },
+      { id: 9, sequence: 'ЩЗЩЗ' }, { id: 10, sequence: 'ЗЩЗЩ' },
+      { id: 11, sequence: 'Щ З Щ З Щ' }, { id: 12, sequence: 'З Щ З Щ З' },
+      { id: 13, sequence: 'ЩЗЩ ЩЗЩ' }, { id: 14, sequence: 'ЗЩЗ ЗЩЗ' },
+      { id: 15, sequence: 'Щ ЗЩЗ Щ ЗЩЗ' }, { id: 16, sequence: 'З ЩЗЩ З ЩЗЩ' }
+    ]
+  },
+  {
+    id: 'c5-l4', class: 5, title: 'Буква Х', description: 'Мизинец правой руки',
+    image: 'assets/images/dino-class5.png', letters: ['Х'],
+    levels: [
+      { id: 1, sequence: 'ХХХ' }, { id: 2, sequence: 'ХХХХ' },
+      { id: 3, sequence: 'Х Х Х' }, { id: 4, sequence: 'ХХХ ХХХ' },
+      { id: 5, sequence: 'ХЩ ХЗ' }, { id: 6, sequence: 'ЩХ ЗХ' },
+      { id: 7, sequence: 'Х Щ Х З' }, { id: 8, sequence: 'З Х Щ Х' },
+      { id: 9, sequence: 'ХЩЗ ЗЩХ' }, { id: 10, sequence: 'ЗХЩ ЩХЗ' },
+      { id: 11, sequence: 'Х Щ З Х Щ З' }, { id: 12, sequence: 'З Х Щ З Х Щ' },
+      { id: 13, sequence: 'ХЩЗ ХЩЗ' }, { id: 14, sequence: 'ЗЩХ ЗЩХ' },
+      { id: 15, sequence: 'Х ЩЗЩ Х ЩЗЩ' }, { id: 16, sequence: 'З ХЩЗ З ХЩЗ' }
+    ]
+  },
+  {
+    id: 'c5-l5', class: 5, title: 'Н, Г, Ш вместе', description: 'Центр верхнего правого ряда',
+    image: 'assets/images/dino-class5.png', letters: ['Н', 'Г', 'Ш'],
+    levels: [
+      { id: 1, sequence: 'НГШ' }, { id: 2, sequence: 'ШГН' },
+      { id: 3, sequence: 'НГШ НГШ' }, { id: 4, sequence: 'ШГН ШГН' },
+      { id: 5, sequence: 'Н Ш Г Н' }, { id: 6, sequence: 'Г Н Ш Г' },
+      { id: 7, sequence: 'НГ ШГ НГ' }, { id: 8, sequence: 'ГН ШН ГН' },
+      { id: 9, sequence: 'НГШН ШНГШ' }, { id: 10, sequence: 'ШНГН НШНГ' },
+      { id: 11, sequence: 'Н Г Ш Н Г Ш' }, { id: 12, sequence: 'Ш Н Г Ш Н Г' },
+      { id: 13, sequence: 'НГШ НГШ НГШ' }, { id: 14, sequence: 'ШГН ШГН ШГН' },
+      { id: 15, sequence: 'НГШН ШНГШ НГШН' }, { id: 16, sequence: 'ШНГН НШНГ ШНГН' }
+    ]
+  },
+  {
+    id: 'c5-l6', class: 5, title: 'Щ, З, Х вместе', description: 'Периферия верхнего правого ряда',
+    image: 'assets/images/dino-class5.png', letters: ['Щ', 'З', 'Х'],
+    levels: [
+      { id: 1, sequence: 'ЩЗХ' }, { id: 2, sequence: 'ХЗЩ' },
+      { id: 3, sequence: 'ЩЗХ ЩЗХ' }, { id: 4, sequence: 'ХЗЩ ХЗЩ' },
+      { id: 5, sequence: 'Щ Х З Щ' }, { id: 6, sequence: 'З Щ Х З' },
+      { id: 7, sequence: 'ЩЗ ХЗ ЩЗ' }, { id: 8, sequence: 'ЗЩ ХЩ ЗЩ' },
+      { id: 9, sequence: 'ЩЗХЩ ХЩЗХ' }, { id: 10, sequence: 'ХЩЗЩ ЩХЩЗ' },
+      { id: 11, sequence: 'Щ З Х Щ З Х' }, { id: 12, sequence: 'Х Щ З Х Щ З' },
+      { id: 13, sequence: 'ЩЗХ ЩЗХ ЩЗХ' }, { id: 14, sequence: 'ХЗЩ ХЗЩ ХЗЩ' },
+      { id: 15, sequence: 'ЩЗХЩ ХЩЗХ ЩЗХЩ' }, { id: 16, sequence: 'ХЩЗЩ ЩХЩЗ ХЩЗЩ' }
+    ]
+  },
+  {
+    id: 'c5-l7', class: 5, title: 'Н, Г, Ш, Щ, З, Х', description: 'Весь верхний ряд правой руки',
+    image: 'assets/images/dino-class5.png', letters: ['Н', 'Г', 'Ш', 'Щ', 'З', 'Х'],
+    levels: [
+      { id: 1, sequence: 'НГШЩЗХ' }, { id: 2, sequence: 'ХЗЩШГН' },
+      { id: 3, sequence: 'НГШ ЩЗХ' }, { id: 4, sequence: 'ХЗЩ ШГН' },
+      { id: 5, sequence: 'Н Г Ш Щ З Х' }, { id: 6, sequence: 'Х З Щ Ш Г Н' },
+      { id: 7, sequence: 'НГШ НГШ ЩЗХ ЩЗХ' }, { id: 8, sequence: 'ХЗЩ ХЗЩ ШГН ШГН' },
+      { id: 9, sequence: 'НГШЩЗХ ХЗЩШГН' }, { id: 10, sequence: 'ХЗЩШГН НГШЩЗХ' },
+      { id: 11, sequence: 'Н Г Ш Щ З Х Н Г' }, { id: 12, sequence: 'Х З Щ Ш Г Н Х З' },
+      { id: 13, sequence: 'НГШЩЗХ НГШЩЗХ' }, { id: 14, sequence: 'ХЗЩШГН ХЗЩШГН' },
+      { id: 15, sequence: 'НГШ ЩЗХ НГЗ ХЩШ' }, { id: 16, sequence: 'ХЗЩ ШГН ХЗГ НЩШ' }
+    ]
+  },
+  {
+    id: 'c5-l8', class: 5, title: 'Закрепление 5 класса', description: 'Свободная печать верхнего правого',
+    image: 'assets/images/dino-class5.png', letters: ['Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'О', 'Л'],
+    levels: [
+      { id: 1, sequence: 'НО ГШ' }, { id: 2, sequence: 'ОЛ ЩЗ' },
+      { id: 3, sequence: 'НГШ ОЛЩ' }, { id: 4, sequence: 'ЩЗХ ЛОГ' },
+      { id: 5, sequence: 'НОГ ШЩЗ ХЛН' }, { id: 6, sequence: 'ЛОН ГШЩ ЗХГ' },
+      { id: 7, sequence: 'Н О Г Ш Щ З Х' }, { id: 8, sequence: 'Х З Щ Ш Г О Н' },
+      { id: 9, sequence: 'НОГШ ЩЗХЛ' }, { id: 10, sequence: 'ЛХЗЩ ШГОН' },
+      { id: 11, sequence: 'НОГ ШЩЗ ХЛН' }, { id: 12, sequence: 'ЛОН ГШЩ ЗХГ' },
+      { id: 13, sequence: 'НГШЩЗХ НОЛГ' }, { id: 14, sequence: 'ХЗЩШГН ЛОНЩ' },
+      { id: 15, sequence: 'НОГ ШЩЗ ХЛН ОНГ' }, { id: 16, sequence: 'ЛОН ГШЩ ЗХГ НОЛ' }
+    ]
+  },
+
+  // ==================== КЛАСС 6: Нижний ряд, левая рука (Я, Ч, С, М, И) ====================
+  {
+    id: 'c6-l1', class: 6, title: 'М и И', description: 'Указательные пальцы левой руки',
+    image: 'assets/images/dino-class6.png', letters: ['М', 'И'],
+    levels: [
+      { id: 1, sequence: 'МММ' }, { id: 2, sequence: 'ИИИ' },
+      { id: 3, sequence: 'МИ МИ' }, { id: 4, sequence: 'ИМ ИМ' },
+      { id: 5, sequence: 'МИМ' }, { id: 6, sequence: 'ИМИ' },
+      { id: 7, sequence: 'М М И И' }, { id: 8, sequence: 'И И М М' },
+      { id: 9, sequence: 'МИМИ' }, { id: 10, sequence: 'ИМИМ' },
+      { id: 11, sequence: 'М И М И М' }, { id: 12, sequence: 'И М И М И' },
+      { id: 13, sequence: 'МИМ МИМ' }, { id: 14, sequence: 'ИМИ ИМИ' },
+      { id: 15, sequence: 'М ИМИ М ИМИ' }, { id: 16, sequence: 'И МИМ И МИМ' }
+    ]
+  },
+  {
+    id: 'c6-l2', class: 6, title: 'Буква С', description: 'Средний палец левой руки',
+    image: 'assets/images/dino-class6.png', letters: ['С'],
+    levels: [
+      { id: 1, sequence: 'ССС' }, { id: 2, sequence: 'СССС' },
+      { id: 3, sequence: 'С С С' }, { id: 4, sequence: 'ССС ССС' },
+      { id: 5, sequence: 'СМ СИ' }, { id: 6, sequence: 'МС ИС' },
+      { id: 7, sequence: 'С М С И' }, { id: 8, sequence: 'И С М С' },
+      { id: 9, sequence: 'СМИ ИМС' }, { id: 10, sequence: 'ИСМ МСИ' },
+      { id: 11, sequence: 'С М И С М И' }, { id: 12, sequence: 'И С М И С М' },
+      { id: 13, sequence: 'СМИ СМИ' }, { id: 14, sequence: 'ИМС ИМС' },
+      { id: 15, sequence: 'С МИМ С МИМ' }, { id: 16, sequence: 'М ИСИ М ИСИ' }
+    ]
+  },
+  {
+    id: 'c6-l3', class: 6, title: 'Буква Ч', description: 'Безымянный палец левой руки',
+    image: 'assets/images/dino-class6.png', letters: ['Ч'],
+    levels: [
+      { id: 1, sequence: 'ЧЧЧ' }, { id: 2, sequence: 'ЧЧЧЧ' },
+      { id: 3, sequence: 'Ч Ч Ч' }, { id: 4, sequence: 'ЧЧЧ ЧЧЧ' },
+      { id: 5, sequence: 'ЧС ЧМ' }, { id: 6, sequence: 'СЧ МЧ' },
+      { id: 7, sequence: 'Ч С Ч М' }, { id: 8, sequence: 'М Ч С Ч' },
+      { id: 9, sequence: 'ЧСМ МСЧ' }, { id: 10, sequence: 'МСЧ СЧМ' },
+      { id: 11, sequence: 'Ч С М Ч С М' }, { id: 12, sequence: 'М Ч С М Ч С' },
+      { id: 13, sequence: 'ЧСМ ЧСМ' }, { id: 14, sequence: 'МСЧ МСЧ' },
+      { id: 15, sequence: 'Ч СМС Ч СМС' }, { id: 16, sequence: 'С ЧМС С ЧМС' }
+    ]
+  },
+  {
+    id: 'c6-l4', class: 6, title: 'Буква Я', description: 'Мизинец левой руки',
+    image: 'assets/images/dino-class6.png', letters: ['Я'],
+    levels: [
+      { id: 1, sequence: 'ЯЯЯ' }, { id: 2, sequence: 'ЯЯЯЯ' },
+      { id: 3, sequence: 'Я Я Я' }, { id: 4, sequence: 'ЯЯЯ ЯЯЯ' },
+      { id: 5, sequence: 'ЯЧ ЯС' }, { id: 6, sequence: 'ЧЯ СЯ' },
+      { id: 7, sequence: 'Я Ч Я С' }, { id: 8, sequence: 'С Я Ч Я' },
+      { id: 9, sequence: 'ЯЧС СЧЯ' }, { id: 10, sequence: 'СЯЧ ЧЯС' },
+      { id: 11, sequence: 'Я Ч С Я Ч С' }, { id: 12, sequence: 'С Я Ч С Я Ч' },
+      { id: 13, sequence: 'ЯЧС ЯЧС' }, { id: 14, sequence: 'СЧЯ СЧЯ' },
+      { id: 15, sequence: 'Я ЧСЧ Я ЧСЧ' }, { id: 16, sequence: 'Ч ЯСЧ Ч ЯСЧ' }
+    ]
+  },
+  {
+    id: 'c6-l5', class: 6, title: 'М, И, С вместе', description: 'Центр нижнего левого ряда',
+    image: 'assets/images/dino-class6.png', letters: ['М', 'И', 'С'],
+    levels: [
+      { id: 1, sequence: 'МИС' }, { id: 2, sequence: 'СИМ' },
+      { id: 3, sequence: 'МИС МИС' }, { id: 4, sequence: 'СИМ СИМ' },
+      { id: 5, sequence: 'М С И М' }, { id: 6, sequence: 'И М С И' },
+      { id: 7, sequence: 'МИ СИ МИ' }, { id: 8, sequence: 'ИМ СМ ИМ' },
+      { id: 9, sequence: 'МИСИ СИМС' }, { id: 10, sequence: 'ИСМИ МИСИ' },
+      { id: 11, sequence: 'М И С М И С' }, { id: 12, sequence: 'С М И С М И' },
+      { id: 13, sequence: 'МИС МИС МИС' }, { id: 14, sequence: 'СИМ СИМ СИМ' },
+      { id: 15, sequence: 'МИСИ СИМС МИСИ' }, { id: 16, sequence: 'ИСМИ МИСИ ИСМИ' }
+    ]
+  },
+  {
+    id: 'c6-l6', class: 6, title: 'Ч, Я вместе с М, И, С', description: 'Весь нижний ряд левой руки',
+    image: 'assets/images/dino-class6.png', letters: ['Я', 'Ч', 'С', 'М', 'И'],
+    levels: [
+      { id: 1, sequence: 'ЯЧСМИ' }, { id: 2, sequence: 'ИМСЧЯ' },
+      { id: 3, sequence: 'ЯЧС МИ' }, { id: 4, sequence: 'ИМ СЧЯ' },
+      { id: 5, sequence: 'Я Ч С М И' }, { id: 6, sequence: 'И М С Ч Я' },
+      { id: 7, sequence: 'ЯЧС ЯЧС МИ МИ' }, { id: 8, sequence: 'ИМ ИМ СЧЯ СЧЯ' },
+      { id: 9, sequence: 'ЯЧСМИ ИМСЧЯ' }, { id: 10, sequence: 'ИМСЧЯ ЯЧСМИ' },
+      { id: 11, sequence: 'Я Ч С М И Я Ч' }, { id: 12, sequence: 'И М С Ч Я И М' },
+      { id: 13, sequence: 'ЯЧСМИ ЯЧСМИ' }, { id: 14, sequence: 'ИМСЧЯ ИМСЧЯ' },
+      { id: 15, sequence: 'ЯЧС МИ ЧСЯ' }, { id: 16, sequence: 'ИМ СЧЯ МИС' }
+    ]
+  },
+  {
+    id: 'c6-l7', class: 6, title: 'Нижний + Домашний (А, В)', description: 'Связка нижнего и домашнего рядов',
+    image: 'assets/images/dino-class6.png', letters: ['Я', 'Ч', 'С', 'М', 'И', 'А', 'В'],
+    levels: [
+      { id: 1, sequence: 'МА ИА' }, { id: 2, sequence: 'АМ АИ' },
+      { id: 3, sequence: 'СВ ВС' }, { id: 4, sequence: 'ВС СВ' },
+      { id: 5, sequence: 'МАС ИВС' }, { id: 6, sequence: 'САМ СВИ' },
+      { id: 7, sequence: 'М А С И М А' }, { id: 8, sequence: 'А М И С А М' },
+      { id: 9, sequence: 'МАСИ ВСМА' }, { id: 10, sequence: 'АИСМ АВСМ' },
+      { id: 11, sequence: 'МАС ИВС ЧА' }, { id: 12, sequence: 'САМ СВИ ЯА' },
+      { id: 13, sequence: 'МАСИ ВСМА' }, { id: 14, sequence: 'АИСМ АВСМ' },
+      { id: 15, sequence: 'М А С И Ч Я В А' }, { id: 16, sequence: 'А М И С Я Ч А В' }
+    ]
+  },
+  {
+    id: 'c6-l8', class: 6, title: 'Закрепление 6 класса', description: 'Свободная печать нижнего левого',
+    image: 'assets/images/dino-class6.png', letters: ['Я', 'Ч', 'С', 'М', 'И', 'А', 'В', 'У', 'К'],
+    levels: [
+      { id: 1, sequence: 'МАС КУ' }, { id: 2, sequence: 'УК ИЯ' },
+      { id: 3, sequence: 'МАСИ КУЧЯ' }, { id: 4, sequence: 'ЯЧСИ УКМА' },
+      { id: 5, sequence: 'МАС УК ИЯ ЧС' }, { id: 6, sequence: 'ЯЧС МАУ КИС' },
+      { id: 7, sequence: 'М А С И У К Я Ч' }, { id: 8, sequence: 'Ч Я К У И С А М' },
+      { id: 9, sequence: 'МАСИ КУЧЯ МАС' }, { id: 10, sequence: 'ЯЧСИ УКМА ЯЧС' },
+      { id: 11, sequence: 'МАС УК ИЯ ЧС МА' }, { id: 12, sequence: 'ЯЧС МАУ КИС ЧЯ' },
+      { id: 13, sequence: 'МАСИ КУЧЯ МАСИ' }, { id: 14, sequence: 'ЯЧСИ УКМА ЯЧСИ' },
+      { id: 15, sequence: 'М А С И Ч Я У К В А' }, { id: 16, sequence: 'А В К У Я Ч И С А М' }
+    ]
   }
 ];
