@@ -64,7 +64,6 @@ class PuzzleGame {
       slot.style.justifyContent = 'center';
       slot.style.fontSize = '24px';
       slot.style.cursor = 'pointer';
-      // Убираем выделение текста на мобильных
       slot.style.userSelect = 'none';
       slot.style.webkitUserSelect = 'none';
 
@@ -74,15 +73,20 @@ class PuzzleGame {
       };
 
       slot.addEventListener('click', handleSlotClick);
+
+      // ИСПРАВЛЕНО: flash-эффект больше не стирает картинку.
+      // 1) Используем backgroundColor вместо shorthand `background`
+      // 2) Не трогаем уже установленные (placed) ячейки
       slot.addEventListener('touchstart', (e) => {
         e.preventDefault();
-        handleSlotClick(e);
-        slot.style.background = '#BDBDBD';
+        if (slot.classList.contains('placed')) return;
+        slot.style.backgroundColor = '#BDBDBD';
         setTimeout(() => {
-          if (!slot.style.backgroundImage) {
-            slot.style.background = '#E0E0E0';
+          if (!slot.classList.contains('placed')) {
+            slot.style.backgroundColor = '';
           }
         }, 150);
+        this.handleSlotClick(i);
       });
 
       board.appendChild(slot);
@@ -120,10 +124,8 @@ class PuzzleGame {
       piece.style.cursor = 'pointer';
       piece.style.border = '2px solid var(--green)';
       piece.style.transition = 'transform 0.2s';
-      // Убираем выделение на мобильных
       piece.style.userSelect = 'none';
       piece.style.webkitUserSelect = 'none';
-      // Убираем стандартное поведение тача
       piece.style.touchAction = 'manipulation';
 
       const handlePieceClick = (e) => {
@@ -164,12 +166,13 @@ class PuzzleGame {
     this.selectedPiece = { index, element: pieceElement };
   }
 
-
   handleSlotClick(slotIndex) {
     if (!this.selectedPiece) return;
 
     const slot = document.querySelector(`.puzzle-slot[data-index="${slotIndex}"]`);
-    
+    // Защита: клик по уже собранной ячейке ничего не ломает
+    if (!slot || slot.classList.contains('placed')) return;
+
     if (slotIndex === this.selectedPiece.index) {
       // Правильное место!
       const col = slotIndex % PUZZLE_COLS;
@@ -177,23 +180,18 @@ class PuzzleGame {
       const bgX = (col / (PUZZLE_COLS - 1)) * 100;
       const bgY = (row / (PUZZLE_ROWS - 1)) * 100;
 
-      // Устанавливаем фоновое изображение с правильными координатами
       slot.style.setProperty('background-image', `url('${this.lesson.image}')`, 'important');
       slot.style.setProperty('background-position', `${bgX}% ${bgY}%`, 'important');
       slot.style.setProperty('background-size', `${PUZZLE_COLS * 100}% ${PUZZLE_ROWS * 100}%`, 'important');
       slot.style.border = '2px solid var(--green)';
-      
-      // Показываем галочку только на десктопе
-      const isMobile = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
-      if (!isMobile) {
-        slot.textContent = '✓';
-        slot.style.fontSize = '32px';
-        slot.style.fontWeight = 'bold';
-        slot.style.color = 'var(--success)';
-      } else {
-        // На мобильных убираем текст, чтобы не перекрывал картинку
-        slot.textContent = '';
-      }
+      slot.classList.add('placed');
+
+      // Галочка на ВСЕХ устройствах (поверх картинки, как на десктопе)
+      slot.textContent = '✓';
+      slot.style.fontSize = '28px';
+      slot.style.fontWeight = 'bold';
+      slot.style.color = 'var(--success)';
+      slot.style.textShadow = '0 0 4px rgba(255,255,255,0.9)';
 
       this.selectedPiece.element.classList.add('placed');
       this.selectedPiece.element.style.opacity = '0.3';
@@ -210,10 +208,12 @@ class PuzzleGame {
         }, 500);
       }
     } else {
-      // Неправильное место
-      slot.style.background = '#FFCDD2';
+      // Неправильное место: мигаем ТОЛЬКО цветом фона, картинку не трогаем
+      slot.style.backgroundColor = '#FFCDD2';
       setTimeout(() => {
-        slot.style.background = '#E0E0E0';
+        if (!slot.classList.contains('placed')) {
+          slot.style.backgroundColor = '';
+        }
       }, 300);
       this.playSound('wrong');
     }
