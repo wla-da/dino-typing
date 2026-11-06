@@ -3,7 +3,7 @@ const PUZZLE_COLS = 4;
 const PUZZLE_ROWS = 4;
 const LEVEL_TIME_SECONDS = 45;
 const LIVES_PER_LEVEL = 3;
-const SOFT_MODE = true; // true = ошибки не снимают жизни (для обучения)
+const SOFT_MODE = false; // true = ошибки не снимают жизни (для обучения)
 
 // ===== УРОКИ =====
 const LESSONS = [

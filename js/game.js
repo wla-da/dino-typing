@@ -118,12 +118,18 @@ class TypingGame {
       'е': 'KeyE', 'ё': 'Backquote', 'ж': 'KeyJ', 'з': 'KeyZ', 'и': 'KeyI',
       'й': 'KeyQ', 'к': 'KeyK', 'л': 'KeyL', 'м': 'KeyM', 'н': 'KeyN',
       'о': 'KeyO', 'п': 'KeyP', 'р': 'KeyR', 'с': 'KeyS', 'т': 'KeyT',
-      'у': 'KeyU', 'ф': 'KeyF', 'х': 'KeyX', 'ц': 'KeyW', 'ч': 'KeyX',
+      'у': 'KeyU', 'ф': 'KeyF', 'х': 'KeyX', 'ц': 'KeyW', 
+      'ч': 'KeyC',  // ← ИСПРАВЛЕНО: ч на KeyC (как на реальной клавиатуре)
       'ш': 'KeyI', 'щ': 'KeyO', 'ъ': 'BracketRight', 'ы': 'KeyS',
       'ь': 'KeyB', 'э': 'Quote', 'ю': 'Period', 'я': 'KeyZ',
-      ' ': 'Space'
+      ' ': 'Space',
+      // Цифры и символы
+      '1': 'Digit1', '2': 'Digit2', '3': 'Digit3', '4': 'Digit4',
+      '5': 'Digit5', '6': 'Digit6', '7': 'Digit7', '8': 'Digit8',
+      '9': 'Digit9', '0': 'Digit0', '-': 'Minus', '=': 'Equal',
+      ',': 'Comma', '.': 'Period', '/': 'Slash'
     };
-    return codeMap[char.toLowerCase()] || '';
+    return codeMap[char.toLowerCase()] || codeMap[char] || '';
   }
 
   unmount() {
@@ -233,15 +239,39 @@ class TypingGame {
           keyEl.classList.add('kb-special');
         }
 
+        // Определяем, какой символ соответствует этой клавише
+        const getSymbolForKey = (keyName) => {
+          if (keyName === 'Space') return ' ';
+          if (keyName === '⌫') return 'Backspace';
+          if (keyName === '') return 'Enter';
+          if (keyName === '') return 'Tab';
+          if (keyName === '⇪') return 'CapsLock';
+          if (keyName === '⇧') return 'Shift';
+          // Для букв и символов возвращаем как есть
+          return keyName;
+        };
+
+        const symbol = getSymbolForKey(key);
+
         // Добавляем поддержку touch событий
         const handleKeyClick = (e) => {
           e.preventDefault();
           const targetChar = this.sequence[this.currentIndex];
-          if (targetChar && targetChar.toLowerCase() === key.toLowerCase()) {
+          if (!targetChar) return;
+
+          // Сравниваем символы
+          let isMatch = false;
+          if (symbol === ' ') {
+            isMatch = targetChar === ' ';
+          } else if (symbol.length === 1) {
+            isMatch = symbol.toLowerCase() === targetChar.toLowerCase();
+          }
+
+          if (isMatch) {
             // Имитируем нажатие правильной клавиши
             const fakeEvent = {
-              key: key,
-              code: RU_TO_CODE[key.toLowerCase()] || '',
+              key: symbol === ' ' ? ' ' : symbol,
+              code: RU_TO_CODE[symbol.toLowerCase()] || 'Space',
               preventDefault: () => {}
             };
             this.handleKey(fakeEvent);
@@ -286,72 +316,91 @@ class TypingGame {
     });
   }
 
-handleKey(e) {
-  if (this.isFinished || this.isPaused) return;
+  handleKey(e) {
+    if (this.isFinished || this.isPaused) return;
 
-  if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' ||
-      e.key === 'Meta' || e.key === 'CapsLock' || e.key === 'Tab') {
-    return;
-  }
-
-  e.preventDefault();
-
-  const targetChar = this.sequence[this.currentIndex];
-  const pressedChar = e.key;
-  const pressedCode = e.code;
-
-  const expectedCode = RU_TO_CODE[targetChar.toLowerCase()];
-  const isCorrectPhysical = pressedCode === expectedCode;
-  const isCorrectChar = pressedChar.toUpperCase() === targetChar.toUpperCase();
-
-  // Проверяем, не нажата ли латинская буква вместо русской
-  const isLatinChar = /^[a-zA-Z]$/.test(pressedChar);
-  const isRussianExpected = /^[А-ЯЁ]$/.test(targetChar);
-
-  if (isLatinChar && isRussianExpected) {
-    // Нажата латинская буква, а нужна русская — раскладка переключена
-    this.wrongLayoutDetected = true;
-    document.getElementById('layout-hint').style.display = 'block';
-    this.playSound('wrong');
-    return;
-  }
-
-  if (isCorrectChar) {
-    this.wrongLayoutDetected = false;
-    document.getElementById('layout-hint').style.display = 'none';
-    this.currentIndex++;
-    this.renderTarget();
-    this.highlightCurrentKey();
-    this.playSound('correct');
-
-    if (this.currentIndex >= this.sequence.length) {
-      this.levelComplete();
+    if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' ||
+        e.key === 'Meta' || e.key === 'CapsLock' || e.key === 'Tab') {
+      return;
     }
-  } else if (isCorrectPhysical) {
-    this.wrongLayoutDetected = true;
-    document.getElementById('layout-hint').style.display = 'block';
-    this.playSound('wrong');
-  } else {
-    this.errors++;
-    document.getElementById('errors').textContent = `Ошибки: ${this.errors}`;
 
-    if (!SOFT_MODE) {
-      this.lives--;
-      document.getElementById('lives').textContent = this.renderLives();
+    e.preventDefault();
 
-      if (this.lives <= 0) {
-        this.levelFailed('Жизни кончились!');
-        return;
+    const targetChar = this.sequence[this.currentIndex];
+    const pressedChar = e.key;
+    const pressedCode = e.code;
+
+    const expectedCode = RU_TO_CODE[targetChar.toLowerCase()];
+    const isCorrectPhysical = pressedCode === expectedCode;
+    
+    // Специальная обработка пробела и других символов
+    let isCorrectChar = false;
+    if (targetChar === ' ' && pressedChar === ' ') {
+      isCorrectChar = true;
+    } else if (targetChar === '-' && pressedChar === '-') {
+      isCorrectChar = true;
+    } else if (targetChar === '=' && pressedChar === '=') {
+      isCorrectChar = true;
+    } else if (targetChar === ',' && pressedChar === ',') {
+      isCorrectChar = true;
+    } else if (targetChar === '.' && pressedChar === '.') {
+      isCorrectChar = true;
+    } else if (targetChar === '/' && pressedChar === '/') {
+      isCorrectChar = true;
+    } else {
+      // Для букв
+      isCorrectChar = pressedChar.toUpperCase() === targetChar.toUpperCase();
+    }
+
+    // Проверяем, не нажата ли латинская буква вместо русской
+    const isLatinChar = /^[a-zA-Z]$/.test(pressedChar);
+    const isRussianExpected = /^[А-ЯЁ]$/.test(targetChar);
+
+    if (isLatinChar && isRussianExpected) {
+      // Нажата латинская буква, а нужна русская — раскладка переключена
+      this.wrongLayoutDetected = true;
+      document.getElementById('layout-hint').style.display = 'block';
+      this.playSound('wrong');
+      return;
+    }
+
+    if (isCorrectChar) {
+      this.wrongLayoutDetected = false;
+      document.getElementById('layout-hint').style.display = 'none';
+      this.currentIndex++;
+      this.renderTarget();
+      this.highlightCurrentKey();
+      this.playSound('correct');
+
+      if (this.currentIndex >= this.sequence.length) {
+        this.levelComplete();
       }
+    } else if (isCorrectPhysical) {
+      this.wrongLayoutDetected = true;
+      document.getElementById('layout-hint').style.display = 'block';
+      this.playSound('wrong');
+    } else {
+      this.errors++;
+      document.getElementById('errors').textContent = `Ошибки: ${this.errors}`;
+
+      if (!SOFT_MODE) {
+        this.lives--;
+        document.getElementById('lives').textContent = this.renderLives();
+
+        if (this.lives <= 0) {
+          this.levelFailed('Жизни кончились!');
+          return;
+        }
+      }
+
+      this.playSound('wrong');
+
+      const target = document.getElementById('target');
+      target.classList.add('shake');
+      setTimeout(() => target.classList.remove('shake'), 400);
     }
-
-    this.playSound('wrong');
-
-    const target = document.getElementById('target');
-    target.classList.add('shake');
-    setTimeout(() => target.classList.remove('shake'), 400);
   }
-}
+
   startTimer() {
     this.updateTimerRing();
     this.timerInterval = setInterval(() => {

@@ -159,10 +159,10 @@ function showLevelResult(lesson, levelNumber, success, errors, reason) {
         ${reason ? `<p class="fail-reason">${reason}</p>` : ''}
         <div class="stars">${success ? stars : '💪'}</div>
         ${success ? '<p>Ты открыл кусочек пазла!</p>' : '<p>Попробуй ещё раз</p>'}
-        <div class="puzzle-container" style="margin-top:16px;">
-          <div id="puzzle-result"></div>
+        <div class="puzzle-modal-container" style="margin:16px 0; height:140px; max-height:140px; background:var(--card); border-radius:var(--radius); padding:8px; display:flex; align-items:center; justify-content:center;">
+          <div id="puzzle-result" style="width:100%; height:100%;"></div>
         </div>
-        <button class="btn btn-primary" id="btn-next" style="margin-top:16px;">
+        <button class="btn btn-primary" id="btn-next" style="margin-top:8px;">
           ${success ? 'Дальше' : 'Попробовать снова'}
         </button>
       </div>
