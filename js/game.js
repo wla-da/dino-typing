@@ -75,8 +75,10 @@ class TypingGame {
     const mobileInput = document.getElementById('mobile-keyboard-input');
     if (!mobileInput) return;
     
-    // На тач-устройствах фокусируемся на скрытое поле
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    // Определяем, тач-устройство или нет
+    const isTouchDevice = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    
+    if (isTouchDevice) {
       // Разрешаем фокус
       mobileInput.style.pointerEvents = 'auto';
       mobileInput.style.opacity = '0.01';
@@ -85,29 +87,47 @@ class TypingGame {
       mobileInput.style.width = '1px';
       mobileInput.style.height = '1px';
       
+      // Флаг для предотвращения двойной обработки
+      let isProcessingMobileInput = false;
+      
       // Фокус при старте уровня
       setTimeout(() => mobileInput.focus(), 100);
       
       // Перехватываем ввод с экранной клавиатуры
       mobileInput.addEventListener('input', (e) => {
         const char = e.data;
-        if (char) {
+        if (char && !isProcessingMobileInput) {
+          isProcessingMobileInput = true;
+          
           // Создаём фейковый keydown event
           const fakeEvent = {
             key: char,
             code: this.getCharCode(char),
-            preventDefault: () => {}
+            preventDefault: () => {},
+            isMobileInput: true  // Метка, что это мобильный ввод
           };
           this.handleKey(fakeEvent);
+          
           // Очищаем поле
           mobileInput.value = '';
+          
+          // Сбрасываем флаг с небольшой задержкой
+          setTimeout(() => {
+            isProcessingMobileInput = false;
+          }, 50);
         }
       });
       
       // Возвращаем фокус после каждого нажатия
       document.addEventListener('click', () => {
-        setTimeout(() => mobileInput.focus(), 50);
+        if (!this.isPaused && !this.isFinished) {
+          setTimeout(() => mobileInput.focus(), 50);
+        }
       });
+      
+      // ОТКЛЮЧАЕМ обработчик keydown для тач-устройств!
+      // Теперь обрабатываем только через input event
+      // document.removeEventListener('keydown', this.keyHandler);
     }
   }
 
@@ -318,6 +338,11 @@ class TypingGame {
 
   handleKey(e) {
     if (this.isFinished || this.isPaused) return;
+
+    // Пропускаем события от физической клавиатуры на мобильных
+    if (!e.isMobileInput && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
+      return;
+    }
 
     if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' ||
         e.key === 'Meta' || e.key === 'CapsLock' || e.key === 'Tab') {
