@@ -177,12 +177,23 @@ class PuzzleGame {
       const bgX = (col / (PUZZLE_COLS - 1)) * 100;
       const bgY = (row / (PUZZLE_ROWS - 1)) * 100;
 
-      slot.style.backgroundImage = `url('${this.lesson.image}')`;
-      slot.style.backgroundPosition = `${bgX}% ${bgY}%`;
-      slot.style.backgroundSize = `${PUZZLE_COLS * 100}% ${PUZZLE_ROWS * 100}%`;
+      // Устанавливаем фоновое изображение с правильными координатами
+      slot.style.setProperty('background-image', `url('${this.lesson.image}')`, 'important');
+      slot.style.setProperty('background-position', `${bgX}% ${bgY}%`, 'important');
+      slot.style.setProperty('background-size', `${PUZZLE_COLS * 100}% ${PUZZLE_ROWS * 100}%`, 'important');
       slot.style.border = '2px solid var(--green)';
-      // Убираем галочку - она не нужна
-      slot.textContent = '';
+      
+      // Показываем галочку только на десктопе
+      const isMobile = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+      if (!isMobile) {
+        slot.textContent = '✓';
+        slot.style.fontSize = '32px';
+        slot.style.fontWeight = 'bold';
+        slot.style.color = 'var(--success)';
+      } else {
+        // На мобильных убираем текст, чтобы не перекрывал картинку
+        slot.textContent = '';
+      }
 
       this.selectedPiece.element.classList.add('placed');
       this.selectedPiece.element.style.opacity = '0.3';

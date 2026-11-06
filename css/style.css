@@ -651,12 +651,16 @@ html, body {
   transition: all 0.2s;
   touch-action: manipulation;
   -webkit-tap-highlight-color: rgba(255, 152, 0, 0.3);
-  /* УБРАНО background-size: cover !important; */
-  background-size: 400% 400%;  /* ← Правильный размер для сетки 4x4 */
+  /* Убираем все background-size из CSS, чтобы JS мог управлять */
+  background-size: 400% 400%;
   background-position: center;
   background-repeat: no-repeat;
   min-width: 60px;
   min-height: 60px;
+  /* Важно для отображения текста и фона вместе */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .puzzle-slot:hover {
