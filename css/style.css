@@ -651,6 +651,11 @@ html, body {
   transition: all 0.2s;
   touch-action: manipulation;
   -webkit-tap-highlight-color: rgba(255, 152, 0, 0.3);
+  /* ДОБАВЛЕНО:确保 фоновое изображение видно */
+  background-size: cover !important;
+  background-position: center !important;
+  min-width: 60px;  /* Минимальная ширина для мобильных */
+  min-height: 60px; /* Минимальная высота для мобильных */
 }
 
 .puzzle-slot:hover {
