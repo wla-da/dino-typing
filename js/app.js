@@ -13,7 +13,7 @@ function showMenu() {
     </div>
   `;
 
-  document.getElementById('btn-start').addEventListener('click', showLessons);
+  document.getElementById('btn-start').addEventListener('click', showClasses);
   document.getElementById('btn-reset').addEventListener('click', () => {
     if (confirm('Сбросить весь прогресс?')) {
       Storage.reset();
@@ -22,51 +22,143 @@ function showMenu() {
   });
 }
 
-function showLessons() {
-  const state = Storage.load();
+function showClasses() {
   app.innerHTML = `
-    <div class="screen-lessons">
+    <div class="screen-classes">
       <button class="btn btn-back" id="btn-back">← Назад</button>
-      <h2>Выбери урок</h2>
-      <div id="lessons-list"></div>
+      <h2>Выбери класс</h2>
+      <div id="classes-list"></div>
     </div>
   `;
 
   document.getElementById('btn-back').addEventListener('click', showMenu);
 
-  const list = document.getElementById('lessons-list');
+  const list = document.getElementById('classes-list');
+  const state = Storage.load();
+  
+  // Находим последний активный класс
+  let lastActiveClass = null;
+  let lastActiveLesson = null;
+  let maxProgress = -1;
+
   LESSONS.forEach(lesson => {
     const completed = state[lesson.id] || 0;
-    const total = lesson.levels.length;
-    const isComplete = completed >= total;
+    if (completed > 0 && completed > maxProgress) {
+      maxProgress = completed;
+      lastActiveClass = lesson.class;
+      lastActiveLesson = lesson.id;
+    }
+  });
+
+  // Группируем уроки по классам
+  const classes = {};
+  LESSONS.forEach(lesson => {
+    if (!classes[lesson.class]) {
+      classes[lesson.class] = [];
+    }
+    classes[lesson.class].push(lesson);
+  });
+
+  // Сортируем классы
+  const sortedClasses = Object.keys(classes).sort((a, b) => parseInt(a) - parseInt(b));
+
+  sortedClasses.forEach(classNum => {
+    const classLessons = classes[classNum];
+    const className = classLessons[0].title.includes('Класс') ? 
+      classLessons[0].title.split('—')[0].trim() : 
+      `${classNum} класс`;
     
+    // Считаем прогресс класса
+    let classCompleted = 0;
+    classLessons.forEach(lesson => {
+      const completed = state[lesson.id] || 0;
+      if (completed >= lesson.levels.length) classCompleted++;
+    });
+
     const card = document.createElement('div');
-    card.className = 'lesson-card';
+    card.className = 'class-card';
     card.innerHTML = `
-      <img src="${lesson.image}" class="dino-preview" alt="">
-      <div class="info">
-        <h3>${lesson.title}</h3>
-        <p>${lesson.description}</p>
-        ${isComplete ? '<span class="complete-badge">✓ Пройден</span>' : ''}
+      <div class="class-icon">${classNum}</div>
+      <div class="info" style="flex:1;">
+        <h3>${className}</h3>
+        <p>${classCompleted}/${classLessons.length} уроков пройдено</p>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: ${(classCompleted/classLessons.length)*100}%"></div>
+        </div>
       </div>
-      <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
-        <div class="progress">${completed}/${total}</div>
-        ${isComplete ? `<button class="btn btn-small btn-secondary" data-reset="${lesson.id}">↻ Сбросить</button>` : ''}
-      </div>
+      <div class="class-toggle">▶</div>
     `;
-    
+
+    // Авто-разворачиваем последний активный класс
+    if (lastActiveClass === parseInt(classNum)) {
+      card.classList.add('expanded');
+      card.querySelector('.class-toggle').textContent = '▼';
+    }
+
     card.addEventListener('click', (e) => {
-      if (e.target.dataset.reset) {
-        e.stopPropagation();
-        if (confirm(`Сбросить прогресс урока "${lesson.title}"?`)) {
-          Storage.resetLesson(lesson.id);
-          showLessons();
+      if (e.target.classList.contains('class-toggle') || e.target.closest('.class-toggle')) {
+        card.classList.toggle('expanded');
+        const toggle = card.querySelector('.class-toggle');
+        toggle.textContent = card.classList.contains('expanded') ? '▼' : '▶';
+        
+        // Показываем/скрываем уроки
+        const lessonsContainer = card.querySelector('.class-lessons');
+        if (lessonsContainer) {
+          lessonsContainer.style.display = card.classList.contains('expanded') ? 'block' : 'none';
         }
       } else {
-        showLevel(lesson, completed + 1);
+        // Клик по карточке - разворачиваем и показываем уроки
+        card.classList.add('expanded');
+        card.querySelector('.class-toggle').textContent = '▼';
+        const lessonsContainer = card.querySelector('.class-lessons');
+        if (lessonsContainer) {
+          lessonsContainer.style.display = 'block';
+          lessonsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       }
     });
+
+    // Контейнер для уроков
+    const lessonsContainer = document.createElement('div');
+    lessonsContainer.className = 'class-lessons';
+    lessonsContainer.style.display = card.classList.contains('expanded') ? 'block' : 'none';
     
+    classLessons.forEach((lesson, index) => {
+      const completed = state[lesson.id] || 0;
+      const total = lesson.levels.length;
+      const isComplete = completed >= total;
+      
+      const lessonCard = document.createElement('div');
+      lessonCard.className = 'lesson-card';
+      lessonCard.innerHTML = `
+        <img src="${lesson.image}" class="dino-preview" alt="">
+        <div class="info">
+          <h3>${index + 1}. ${lesson.title}</h3>
+          <p>${lesson.description}</p>
+          ${isComplete ? '<span class="complete-badge">✓ Пройден</span>' : ''}
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
+          <div class="progress">${completed}/${total}</div>
+          ${isComplete ? `<button class="btn btn-small btn-secondary" data-reset="${lesson.id}">↻ Сбросить</button>` : ''}
+        </div>
+      `;
+      
+      lessonCard.addEventListener('click', (e) => {
+        if (e.target.dataset.reset) {
+          e.stopPropagation();
+          if (confirm(`Сбросить прогресс урока "${lesson.title}"?`)) {
+            Storage.resetLesson(lesson.id);
+            showClasses();
+          }
+        } else {
+          showLevel(lesson, completed + 1);
+        }
+      });
+      
+      lessonsContainer.appendChild(lessonCard);
+    });
+
+    card.appendChild(lessonsContainer);
     list.appendChild(card);
   });
 }
@@ -103,7 +195,7 @@ function showLevel(lesson, levelNumber) {
     </div>
   `;
 
-  document.getElementById('btn-back').addEventListener('click', () => showLessons());
+  document.getElementById('btn-back').addEventListener('click', () => showClasses());
 
   renderPuzzle(document.getElementById('puzzle'), lesson.image, unlockedCount, totalPieces);
   renderTargetStatic(level.sequence, 0);
@@ -136,7 +228,7 @@ function startGame(lesson, levelNumber) {
     },
     () => {
       currentGame = null;
-      showLessons();
+      showClasses();
     }
   );
 
@@ -185,75 +277,10 @@ function showLessonComplete(lesson) {
   const container = document.getElementById('puzzle-game-container');
 
   const puzzleGame = new PuzzleGame(lesson, () => {
-    showMenu();
+    showClasses();
   });
 
   puzzleGame.mount(container);
-}
-
-function showClasses() {
-  app.innerHTML = `
-    <div class="screen-classes">
-      <button class="btn btn-back" id="btn-back">← Назад</button>
-      <h2>Выбери класс</h2>
-      <div id="classes-list"></div>
-    </div>
-  `;
-
-  document.getElementById('btn-back').addEventListener('click', showMenu);
-
-  const list = document.getElementById('classes-list');
-  DataLoader.classes.forEach(cls => {
-    const progress = DataLoader.getClassProgress(cls.id);
-    const card = document.createElement('div');
-    card.className = 'class-card';
-    card.innerHTML = `
-      <div class="class-icon">${cls.id.replace('class-', '')}</div>
-      <div class="info">
-        <h3>${cls.title}</h3>
-        <p>${cls.description}</p>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: ${(progress.completed/progress.total)*100}%"></div>
-        </div>
-        <div class="progress-text">${progress.completed}/${progress.total} уроков</div>
-      </div>
-    `;
-    card.addEventListener('click', () => showClassLessons(cls));
-    list.appendChild(card);
-  });
-}
-
-function showClassLessons(cls) {
-  const lessons = DataLoader.getLessonsByClass(cls.id);
-  const state = Storage.load();
-  
-  app.innerHTML = `
-    <div class="screen-lessons">
-      <button class="btn btn-back" id="btn-back">← К классам</button>
-      <h2>${cls.title}</h2>
-      <div id="lessons-list"></div>
-    </div>
-  `;
-
-  document.getElementById('btn-back').addEventListener('click', showClasses);
-
-  const list = document.getElementById('lessons-list');
-  lessons.forEach(lesson => {
-    const completed = state[lesson.id] || 0;
-    const total = lesson.levels.length;
-    const card = document.createElement('div');
-    card.className = 'lesson-card';
-    card.innerHTML = `
-      <img src="${lesson.image}" class="dino-preview" alt="">
-      <div class="info">
-        <h3>${lesson.title}</h3>
-        <p>${lesson.description}</p>
-      </div>
-      <div class="progress">${completed}/${total}</div>
-    `;
-    card.addEventListener('click', () => showLevel(lesson, completed + 1));
-    list.appendChild(card);
-  });
 }
 
 // Старт
