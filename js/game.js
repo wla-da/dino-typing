@@ -59,6 +59,7 @@ class TypingGame {
 
     this.container = null;
     this.keyHandler = this.handleKey.bind(this);
+     this.levelNumber = levelNumber;
   }
 
   mount(container) {
@@ -170,13 +171,16 @@ class TypingGame {
 
   render() {
     const totalPieces = PUZZLE_COLS * PUZZLE_ROWS;
-    const unlockedCount = this.level.id - 1;
+    const unlockedCount = this.levelNumber - 1;
 
     this.container.innerHTML = `
       <div class="screen-game">
         <div class="game-header">
           <button class="btn-icon" id="btn-exit" title="Выйти">✕</button>
-          <div class="game-title">${this.lesson.title} · Уровень ${this.level.id}</div>
+          <div class="game-titlewrap">
+            <div class="game-title">Класс ${this.lesson.class} · Урок ${getLessonNumberInClass(this.lesson)} · ${this.lesson.title}</div>
+            <div class="game-subtitle">Уровень ${this.levelNumber}/${this.lesson.levels.length} · ${fingerHintHTML(this.lesson)}</div>
+          </div>
           <button class="btn-icon" id="btn-pause" title="Пауза">⏸</button>
         </div>
 

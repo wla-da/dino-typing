@@ -9,6 +9,57 @@ function focusPrimaryButton(id) {
   }, 0);
 }
 
+// ===== Номер урока внутри его класса =====
+function getLessonNumberInClass(lesson) {
+  let num = 0;
+  for (const l of LESSONS) {
+    if (l.class === lesson.class) {
+      num++;
+      if (l.id === lesson.id) return num;
+    }
+  }
+  return 0;
+}
+
+// ===== Пиктограмма руки с активными пальцами =====
+// Пальцы: 0=мизинец, 1=безымянный, 2=средний, 3=указательный, 4=большой
+function handSVG(hand, activeFingers) {
+  const heights = [12, 15, 17, 15, 10];
+  const xs = [2, 9, 16, 23, 30];
+  let inner = '';
+  for (let i = 0; i < 5; i++) {
+    const fill = activeFingers.includes(i) ? 'var(--orange)' : '#CFD8DC';
+    inner += `<rect x="${xs[i]}" y="${20 - heights[i]}" width="5" height="${heights[i]}" rx="2.5" fill="${fill}"/>`;
+  }
+  inner += `<rect x="2" y="20" width="33" height="8" rx="3" fill="#B0BEC5"/>`;
+  const mirror = hand === 'right' ? '<g transform="scale(-1,1) translate(-37,0)">' : '<g>';
+  return `<svg class="hand-svg" width="37" height="30" viewBox="0 0 37 30" aria-hidden="true">${mirror}${inner}</g></svg>`;
+}
+
+// ===== Текстовая + графическая подсказка по пальцам =====
+function fingerHintHTML(lesson) {
+  const desc = (lesson.description || '').toLowerCase();
+  const fingers = [];
+  if (desc.includes('мизин')) fingers.push(0);
+  if (desc.includes('безымян')) fingers.push(1);
+  if (desc.includes('средн')) fingers.push(2);
+  if (desc.includes('указательн')) fingers.push(3);
+  if (desc.includes('больш')) fingers.push(4);
+  if (fingers.length === 0 && desc.includes('все 4')) fingers.push(0, 1, 2, 3);
+  if (fingers.length === 0 && desc.includes('свободная')) fingers.push(0, 1, 2, 3);
+
+  const hands = [];
+  if (desc.includes('лев')) hands.push('left');
+  if (desc.includes('прав')) hands.push('right');
+  if (hands.length === 0 && fingers.length > 0) hands.push('left', 'right');
+
+  let svg = '';
+  if (fingers.length > 0) {
+    svg = hands.map(h => handSVG(h, fingers)).join('');
+  }
+  return `${svg}<span>${lesson.description || ''}</span>`;
+}
+
 // Страховка: если фокус потерян, Enter/Пробел нажимает главную кнопку видимого экрана/модалки.
 // ВАЖНО: во время игры (currentGame активна и не на паузе) обработчик НЕ работает —
 // клавиши принадлежат механике печати.
@@ -64,10 +115,9 @@ function showClasses() {
 
   const list = document.getElementById('classes-list');
   const state = Storage.load();
-  
+
   // Находим последний активный класс
   let lastActiveClass = null;
-  let lastActiveLesson = null;
   let maxProgress = -1;
 
   LESSONS.forEach(lesson => {
@@ -75,7 +125,6 @@ function showClasses() {
     if (completed > 0 && completed > maxProgress) {
       maxProgress = completed;
       lastActiveClass = lesson.class;
-      lastActiveLesson = lesson.id;
     }
   });
 
@@ -88,16 +137,12 @@ function showClasses() {
     classes[lesson.class].push(lesson);
   });
 
-  // Сортируем классы
   const sortedClasses = Object.keys(classes).sort((a, b) => parseInt(a) - parseInt(b));
 
   sortedClasses.forEach(classNum => {
     const classLessons = classes[classNum];
-    const className = classLessons[0].title.includes('Класс') ? 
-      classLessons[0].title.split('—')[0].trim() : 
-      `${classNum} класс`;
-    
-    // Считаем прогресс класса
+    const className = `${classNum} класс`;
+
     let classCompleted = 0;
     classLessons.forEach(lesson => {
       const completed = state[lesson.id] || 0;
@@ -107,36 +152,37 @@ function showClasses() {
     const card = document.createElement('div');
     card.className = 'class-card';
     card.innerHTML = `
-      <div class="class-icon">${classNum}</div>
-      <div class="info" style="flex:1;">
-        <h3>${className}</h3>
-        <p>${classCompleted}/${classLessons.length} уроков пройдено</p>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: ${(classCompleted/classLessons.length)*100}%"></div>
+      <div class="class-header">
+        <div class="class-icon">${classNum}</div>
+        <div class="info" style="flex:1;">
+          <h3>${className}</h3>
+          <p>${classCompleted}/${classLessons.length} уроков пройдено</p>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${(classCompleted / classLessons.length) * 100}%"></div>
+          </div>
         </div>
+        <div class="class-toggle">▶</div>
       </div>
-      <div class="class-toggle">▶</div>
     `;
 
-    // Авто-разворачиваем последний активный класс
     if (lastActiveClass === parseInt(classNum)) {
       card.classList.add('expanded');
       card.querySelector('.class-toggle').textContent = '▼';
     }
 
     card.addEventListener('click', (e) => {
+      // Клики по урокам и их кнопкам не сворачивают/разворачивают класс
+      if (e.target.closest('.lesson-card')) return;
+
       if (e.target.classList.contains('class-toggle') || e.target.closest('.class-toggle')) {
         card.classList.toggle('expanded');
         const toggle = card.querySelector('.class-toggle');
         toggle.textContent = card.classList.contains('expanded') ? '▼' : '▶';
-        
-        // Показываем/скрываем уроки
         const lessonsContainer = card.querySelector('.class-lessons');
         if (lessonsContainer) {
           lessonsContainer.style.display = card.classList.contains('expanded') ? 'block' : 'none';
         }
       } else {
-        // Клик по карточке - разворачиваем и показываем уроки
         card.classList.add('expanded');
         card.querySelector('.class-toggle').textContent = '▼';
         const lessonsContainer = card.querySelector('.class-lessons');
@@ -147,16 +193,16 @@ function showClasses() {
       }
     });
 
-    // Контейнер для уроков
+    // Контейнер уроков — ТЕПЕРЬ под шапкой, на всю ширину
     const lessonsContainer = document.createElement('div');
     lessonsContainer.className = 'class-lessons';
     lessonsContainer.style.display = card.classList.contains('expanded') ? 'block' : 'none';
-    
+
     classLessons.forEach((lesson, index) => {
       const completed = state[lesson.id] || 0;
       const total = lesson.levels.length;
       const isComplete = completed >= total;
-      
+
       const lessonCard = document.createElement('div');
       lessonCard.className = 'lesson-card';
       lessonCard.innerHTML = `
@@ -171,7 +217,7 @@ function showClasses() {
           ${isComplete ? `<button class="btn btn-small btn-secondary" data-reset="${lesson.id}">↻ Сбросить</button>` : ''}
         </div>
       `;
-      
+
       lessonCard.addEventListener('click', (e) => {
         if (e.target.dataset.reset) {
           e.stopPropagation();
@@ -183,7 +229,7 @@ function showClasses() {
           showLevel(lesson, completed + 1);
         }
       });
-      
+
       lessonsContainer.appendChild(lessonCard);
     });
 
@@ -201,12 +247,13 @@ function showLevel(lesson, levelNumber) {
   const level = lesson.levels.find(l => l.id === levelNumber);
   const totalPieces = PUZZLE_COLS * PUZZLE_ROWS;
   const unlockedCount = levelNumber - 1;
+  const lessonNum = getLessonNumberInClass(lesson);
 
   app.innerHTML = `
     <div class="screen-level">
       <button class="btn btn-back" id="btn-back">← Назад</button>
       <div class="level-header">
-        <span class="title">${lesson.title} · Уровень ${levelNumber}</span>
+        <span class="title">Класс ${lesson.class} · Урок ${lessonNum} · ${lesson.title} · Уровень ${levelNumber}/${lesson.levels.length}</span>
         <span class="progress-text">Пазл: ${unlockedCount}/${totalPieces}</span>
       </div>
 
@@ -215,6 +262,7 @@ function showLevel(lesson, levelNumber) {
       </div>
 
       <div class="input-zone">
+        <div class="finger-hint">${fingerHintHTML(lesson)}</div>
         <div class="target-letters" id="target"></div>
         <p class="hint">Нажми «Старт» чтобы начать</p>
         <button class="btn btn-primary" id="btn-start-level" style="margin-top:16px;">

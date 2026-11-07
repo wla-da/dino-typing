@@ -734,18 +734,10 @@ html, body {
   border-radius: var(--radius);
 }
 
-.class-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: var(--shadow);
+.class-header {
   display: flex;
   align-items: center;
   gap: 16px;
-  cursor: pointer;
-  transition: transform 0.15s;
-  scroll-margin-top: 70px;
 }
 
 .class-card:active { transform: scale(0.98); }
@@ -883,8 +875,10 @@ html, body {
   padding: 20px;
   margin-bottom: 16px;
   box-shadow: var(--shadow);
+  display: block;          /* ← УБЕДИСЬ, что это есть */
   cursor: pointer;
   transition: transform 0.15s;
+  scroll-margin-top: 70px; /* ← ДОБАВИТЬ из первого блока */
 }
 
 .class-card:active { 
@@ -980,4 +974,47 @@ html, body {
   .lesson-card .info h3 {
     font-size: 15px;
   }
+}
+
+/* ===== Хлебные крошки и подсказка пальцев ===== */
+.game-titlewrap {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
+.game-subtitle {
+  font-size: 11px;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.finger-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.hand-svg {
+  display: inline-block;
+}
+
+.level-header {
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .hand-svg { display: none; }
+  .finger-hint { font-size: 11px; margin-bottom: 2px; }
+  .game-subtitle { font-size: 10px; }
 }
