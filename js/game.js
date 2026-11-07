@@ -120,9 +120,11 @@ class TypingGame {
       
       // Возвращаем фокус после каждого нажатия
       document.addEventListener('click', () => {
-        if (!this.isPaused && !this.isFinished) {
-          setTimeout(() => mobileInput.focus(), 50);
-        }
+        setTimeout(() => {
+          if (this.isFinished || this.isPaused) return;        // игра окончена или пауза — фокус не возвращаем
+          if (document.getElementById('pause-modal')) return;  // открыта модалка паузы
+          mobileInput.focus();
+        }, 50);
       });
       
       // ОТКЛЮЧАЕМ обработчик keydown для тач-устройств!
@@ -499,6 +501,8 @@ class TypingGame {
       this.unmount();
       this.onExit();
     });
+
+     focusPrimaryButton('btn-resume');
   }
 
   hidePauseModal() {

@@ -1,6 +1,34 @@
 const app = document.getElementById('app');
 let currentGame = null;
 
+// ===== КЛАВИАТУРНАЯ ПОДДЕРЖКА КНОПОК (Enter / Пробел) =====
+function focusPrimaryButton(id) {
+  setTimeout(() => {
+    const btn = document.getElementById(id);
+    if (btn) btn.focus();
+  }, 0);
+}
+
+// Страховка: если фокус потерян, Enter/Пробел нажимает главную кнопку видимого экрана/модалки.
+// ВАЖНО: во время игры (currentGame активна и не на паузе) обработчик НЕ работает —
+// клавиши принадлежат механике печати.
+document.addEventListener('keydown', (e) => {
+  if (currentGame && !currentGame.isPaused) return;   // в игре клавиши не трогаем
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+
+  // Если фокус уже на кнопке/поле — пусть сработает нативное поведение
+  const active = document.activeElement;
+  if (active && (active.tagName === 'BUTTON' || active.tagName === 'INPUT')) return;
+
+  const primary = document.querySelector(
+    '.modal-overlay .btn-primary, .screen-level .btn-primary, .screen-menu .btn-primary'
+  );
+  if (primary) {
+    e.preventDefault();
+    primary.click();
+  }
+});
+
 // ===== РОУТИНГ =====
 function showMenu() {
   app.innerHTML = `
@@ -20,6 +48,7 @@ function showMenu() {
       showMenu();
     }
   });
+  focusPrimaryButton('btn-start');
 }
 
 function showClasses() {
@@ -203,6 +232,8 @@ function showLevel(lesson, levelNumber) {
   document.getElementById('btn-start-level').addEventListener('click', () => {
     startGame(lesson, levelNumber);
   });
+
+  focusPrimaryButton('btn-start-level');
 }
 
 function renderTargetStatic(sequence, currentIndex) {
@@ -270,6 +301,8 @@ function showLevelResult(lesson, levelNumber, success, errors, reason) {
       startGame(lesson, levelNumber);
     }
   });
+
+  focusPrimaryButton('btn-next');
 }
 
 function showLessonComplete(lesson) {

@@ -244,6 +244,8 @@ class PuzzleGame {
     });
 
     this.playSound('fanfare');
+    
+    focusPrimaryButton('btn-finish');
   }
 
   playSound(type) {

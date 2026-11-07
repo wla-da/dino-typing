@@ -60,6 +60,11 @@ html, body {
   transform: scale(0.96);
 }
 
+.btn:focus {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
 .btn-primary { background: var(--green); }
 .btn-primary:hover { background: var(--green-dark); }
 
