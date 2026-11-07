@@ -289,10 +289,9 @@ function renderTargetStatic(sequence, currentIndex) {
   if (!el) return;
   const chars = sequence.split('');
   el.innerHTML = chars.map((ch, i) => {
-    if (ch === ' ') return ' ';
-    if (i < currentIndex) return `<span class="done">${ch}</span>`;
-    if (i === currentIndex) return `<span class="current">${ch}</span>`;
-    return `<span class="pending">${ch}</span>`;
+    const cls = i < currentIndex ? 'done' : (i === currentIndex ? 'current' : 'pending');
+    if (ch === ' ') return `<span class="${cls} is-space">&nbsp;</span>`;
+    return `<span class="${cls}">${ch}</span>`;
   }).join('');
 }
 

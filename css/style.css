@@ -1018,3 +1018,19 @@ html, body {
   .finger-hint { font-size: 11px; margin-bottom: 2px; }
   .game-subtitle { font-size: 10px; }
 }
+
+/* ===== Пробел как видимый слот с подчеркиванием ===== */
+.target-letters .is-space {
+  display: inline-block;
+  width: 1.2em;               /* ширина слота пробела */
+  height: 1em;
+  vertical-align: -0.2em;     /* опускаем низ бокса к линии подчеркивания букв */
+  border-bottom: 0.1em solid transparent;
+  text-decoration: none;      /* отключаем капризное underline на whitespace */
+}
+
+/* Курсор на пробеле видим... */
+.target-letters .is-space.current { border-bottom-color: var(--orange); }
+/* ...а пройденные и будущие пробелы невидимы, как в реальном тексте */
+.target-letters .is-space.done,
+.target-letters .is-space.pending { border-bottom-color: transparent; }

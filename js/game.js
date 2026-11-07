@@ -237,9 +237,9 @@ class TypingGame {
     if (!el) return;
     const chars = this.sequence.split('');
     el.innerHTML = chars.map((ch, i) => {
-      if (i < this.currentIndex) return `<span class="done">${ch}</span>`;
-      if (i === this.currentIndex) return `<span class="current">${ch}</span>`;
-      return `<span class="pending">${ch}</span>`;
+      const cls = i < this.currentIndex ? 'done' : (i === this.currentIndex ? 'current' : 'pending');
+      if (ch === ' ') return `<span class="${cls} is-space">&nbsp;</span>`;
+      return `<span class="${cls}">${ch}</span>`;
     }).join('');
   }
 
@@ -334,9 +334,12 @@ class TypingGame {
     const ruChar = CODE_TO_RU[code];
     if (!ruChar) return;
 
+    // ИСПРАВЛЕНО: клавиша пробела в разметке имеет data-key="Space", а не " "
+    const keyToHighlight = (ruChar === ' ') ? 'Space' : ruChar;
+
     // Подсвечиваем клавишу
     document.querySelectorAll('.kb-key').forEach(el => {
-      if (el.dataset.key === ruChar) {
+      if (el.dataset.key === keyToHighlight) {
         el.classList.add('kb-active');
       }
     });
